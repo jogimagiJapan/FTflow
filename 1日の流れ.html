@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1日の流れ（全体図）横長版</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --main-color: #545a62;
+            --border-color: #e0e0e0;
+            --text-main: #333333;
+            --text-sub: #666666;
+            --bg-white: #ffffff;
+            --bg-light: #fafafa; /* 2トーン薄い色 */
+            --point-bg: #d9e2ec;
+        }
+
+@page {
+    size: A3 portrait; /* 縦向きに指定 */
+    margin: 0;
+}
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f0f0f0;
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            line-height: 1.25;
+        }
+
+        .container {
+    width: 356.4mm;  /* A3の短辺 */
+    height: 504mm; /* A3の長辺 */
+            background-color: var(--bg-white);
+            padding: 15mm;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 3px solid var(--main-color);
+            padding-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 32pt;
+            letter-spacing: 0.25em;
+            margin: 0;
+            font-weight: 700;
+            color: var(--main-color);
+        }
+
+        .subtitle {
+            font-size: 14pt;
+            color: var(--text-sub);
+            margin-top: 8px;
+        }
+
+        .section {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            flex: 1;
+        }
+
+        /* 開店前と閉店後の背景を薄くする */
+        .section.pre-open, .section.post-open {
+            background-color: var(--bg-white);
+        }
+
+        .category-label {
+            width: 50mm;
+            background-color: var(--main-color);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-shrink: 0;
+border-radius: 10px; 
+    margin: 10px;
+        }
+
+    .pre-open .category-label {
+        background-color: #8e949c;     }
+
+    .post-open .category-label {
+        background-color: #8e949c;
+    }
+        .cat-main {
+            font-size: 20pt;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+        }
+
+        .cat-sub {
+            font-size: 11pt;
+            margin-top: 6px;
+            opacity: 0.9;
+        }
+
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 30mm 1.5fr 1fr 60mm; /* 横幅を広げた調整 */
+            gap: 25px;
+            padding: 12px 25px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            align-items: center;
+            flex: 1;
+        }
+
+        .row:last-child {
+            border-bottom: none;
+        }
+
+        .time-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20pt;
+            color: var(--main-color);
+        }
+
+        /* 縦線の削除（営業中セクション内のクラスを無効化） */
+        .vertical-line {
+            display: none;
+        }
+
+        .task-main {
+            padding-right: 10px;
+        }
+
+        .task-title {
+            font-size: 16pt;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .task-desc {
+            font-size: 11pt;
+            color: var(--text-sub);
+        }
+
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .item-list li {
+            font-size: 11pt;
+            margin-bottom: 6px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+        }
+
+        .point-card {
+            background-color: var(--point-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 10.5pt;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 70px;
+        }
+
+        .point-card::before {
+            content: "ポイント";
+            display: block;
+            font-weight: 700;
+            color: var(--main-color);
+            border-bottom: 2px solid var(--main-color);
+            margin-bottom: 8px;
+            padding-bottom: 3px;
+            font-size: 9pt;
+        }
+
+        footer {
+            margin-top: 15px;
+            display: flex;
+justify-content: center;
+            align-items: center;
+            background-color: var(--main-color);
+            padding: 15px 30px;
+            color: white;
+border-radius: 15px;
+        }
+
+        .footer-label {
+            background-color: white;
+            color: var(--main-color);
+            padding: 5px 15px;
+            font-size: 13pt;
+            font-weight: 700;
+            margin-right: 20px;
+            white-space: nowrap;
+border-radius: 50px;
+        }
+
+        .footer-text {
+            font-size: 14pt;
+            font-weight: 700;
+text-align: center;
+        }
+
+        [contenteditable="true"]:focus {
+            outline: 2px solid #ffcc00;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1 contenteditable="true">1日の流れ（全体図）</h1>
+        <div class="subtitle" contenteditable="true">お客様にとって心地よい時間をつくるために、私たちの1日を整えます。</div>
+    </header>
+
+    <div class="section pre-open">
+        <div class="category-label">
+            <div class="cat-main" contenteditable="true">開店前</div>
+            <div class="cat-sub" contenteditable="true">（準備時間）</div>
+        </div>
+        <div class="content-area">
+            <div class="row">
+                <div class="time-display" contenteditable="true">10:00</div>
+                <div class="task-main">
+                    <span class="task-title" contenteditable="true">清掃</span>
+                    <div class="task-desc" contenteditable="true">店内・バックヤード・什器・ガラスなどを清潔に整えます。</div>
+                </div>
+                <ul class="item-list">
+                    <li contenteditable="true">◇ 床・棚・什器の清掃</li>
+                    <li contenteditable="true">◇ ガラスの拭き上げ</li>
+                    <li contenteditable="true">◇ 試着室・バックヤードの整理</li>
+                </ul>
+                <div class="point-card" contenteditable="true">清潔な空間は、ブランドの信頼につながります。</div>
+            </div>
+            <div class="row">
+                <div class="time-display" contenteditable="true">10:20</div>
+                <div class="task-main">
+                    <span class="task-title" contenteditable="true">売場・商品確認</span>
+                    <div class="task-desc" contenteditable="true">商品・ディスプレイ・在庫・備品を確認し、最適な状態に整えます。</div>
+                </div>
+                <ul class="item-list">
+                    <li contenteditable="true">◇ 商品陳列・向き・配置の確認</li>
+                    <li contenteditable="true">◇ 欠品・在庫の確認</li>
+                    <li contenteditable="true">◇ ディスプレイ・POPの確認</li>
+                </ul>
+                <div class="point-card" contenteditable="true">美しい売場は、お客様の購買体験を高めます。</div>
+            </div>
+            <div class="row">
+                <div class="time-display" contenteditable="true">10:40</div>
+                <div class="task-main">
+                    <span class="task-title" contenteditable="true">朝礼（5分）</span>
+                    <div class="task-desc" contenteditable="true">チームで情報共有し、1日の目標と接客の意識を合わせます。</div>
+                </div>
+                <ul class="item-list">
+                    <li contenteditable="true">◇ 来店予定・予約の確認</li>
+                    <li contenteditable="true">◇ 共有事項の確認</li>
+                    <li contenteditable="true">◇ 本日の接客テーマを1つ決める</li>
+                </ul>
+                <div class="point-card" contenteditable="true">小さな共有が、大きな連携と安心につながります。</div>
+            </div>
+            <div class="row">
+                <div class="time-display" contenteditable="true">10:50</div>
+                <div class="task-main">
+                    <span class="task-title" contenteditable="true">役割・配置確認</span>
+                    <div class="task-desc" contenteditable="true">本日のスタッフ配置・役割を確認し、営業準備を整えます。</div>
+                </div>
+                <ul class="item-list">
+                    <li contenteditable="true">◇ スタッフの役割確認</li>
+                    <li contenteditable="true">◇ 動線・カバー範囲の確認</li>
+                    <li contenteditable="true">◇ 開店準備の最終チェック</li>
+                </ul>
+                <div class="point-card" contenteditable="true">役割が明確だと、スムーズな接客につながります。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="category-label">
+            <div class="cat-main" contenteditable="true">営業中</div>
+            <div class="cat-sub" contenteditable="true">（接客時間）</div>
+        </div>
+        <div class="content-area">
+            <div class="row">
+                <div class="time-display"><span contenteditable="true">11:00</span></div>
+                <div class="task-main">
+                    <span class="task-title" contenteditable="true">お客様をお迎えする</span>
+                    <div class="task-desc" contenteditable="true">心地よい挨拶と、余白のある接客を心がけます。</div>
+                </div>
+                <ul class="item-list">
+                    <li contenteditable="true">◇ 入店時のご挨拶</li>
+                    <li contenteditable="true">◇ 観察・状況把握</li>
+                    <li contenteditable="true">◇ 必要なタイミングでお声がけ</li>
+                </ul>
+                <div class="point-card" contenteditable="true">急がせず、選んでいただく接客を意識します。</div>
+            </div>
+            <div class="row">
+                <div class="time-display"></div>
+                <div class="task-main">
+                    <span class="task-title" contenteditable="true">提案する</span>
+                    <div class="task-desc" contenteditable="true">お客様の用途や好みを伺い、最適な選択肢を提案します。</div>
+                </div>
+                <ul class="item-list">
+                    <li contenteditable="true">◇ 用途・ご要望のヒアリング</li>
+                    <li contenteditable="true">◇ 1〜2点のご提案</li>
+                    <li contenteditable="true">◇ 理由を添えて提案</li>
+                </ul>
+                <div class="point-card" contenteditable="true">提案は「売ること」ではなく「選択肢を示すこと」。</div>
+            </div>
+            <div class="row">
+                <div class="time-display"></div>
+                <div class="task-main">
+                    <span class="task-title" contenteditable="true">購入・お見送り</span>
+                    <div class="task-desc" contenteditable="true">不安や疑問を解消し、気持ちよくお見送りします。</div>
+                </div>
+                <ul class="item-list">
+                    <li contenteditable="true">◇ 最終確認・ご説明</li>
+                    <li contenteditable="true">◇ アフターケアのご案内</li>
+                    <li contenteditable="true">◇ お見送り・感謝の言葉</li>
+                </ul>
+                <div class="point-card" contenteditable="true">最後の印象が、次回来店につながります。</div>
+            </div>
+            <div class="row">
+                <div class="time-display"></div>
+                <div class="task-main">
+                    <span class="task-title" contenteditable="true">店内管理・情報共有</span>
+                    <div class="task-desc" contenteditable="true">売場・在庫・お客様情報をこまめに確認・共有します。</div>
+                </div>
+                <ul class="item-list">
+                    <li contenteditable="true">◇ 売場の整え直し</li>
+                    <li contenteditable="true">◇ 在庫状況の確認</li>
+                    <li contenteditable="true">◇ お客様情報の共有・記録</li>
+                </ul>
+                <div class="point-card" contenteditable="true">こまめな管理が、質の高い接客を支えます。</div>
+            </div>
+            <div class="row">
+                <div class="time-display"><span contenteditable="true">19:00</span></div>
+                <div class="task-main">
+                    <span class="task-title" contenteditable="true">休憩・リフレッシュ</span>
+                    <div class="task-desc" contenteditable="true">チームで声を掛け合い、無理のない働き方を心がけます。</div>
+                </div>
+                <ul class="item-list">
+                    <li contenteditable="true">◇ 適切なタイミングで休憩</li>
+                    <li contenteditable="true">◇ 水分補給・リフレッシュ</li>
+                    <li contenteditable="true">◇ 体調・気持ちのリセット</li>
+                </ul>
+                <div class="point-card" contenteditable="true">スタッフの余裕が、お客様の安心につながります。</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section post-open">
+        <div class="category-label">
+            <div class="cat-main" contenteditable="true">閉店後</div>
+            <div class="cat-sub" contenteditable="true">（締め作業・退勤）</div>
+        </div>
+        <div class="content-area">
+            <div class="row">
+                <div class="time-display" contenteditable="true">19:00</div>
+                <div class="task-main">
+                    <span class="task-title" contenteditable="true">売上確認・締め作業</span>
+                    <div class="task-desc" contenteditable="true">売上・入金・カード決済などを確認し、締め作業を行います。</div>
+                </div>
+                <ul class="item-list">
+                    <li contenteditable="true">◇ 売上集計・確認</li>
+                    <li contenteditable="true">◇ 入金・カード処理確認</li>
+                    <li contenteditable="true">◇ レジ締め</li>
+                </ul>
+                <div class="point-card" contenteditable="true">正確な締め作業が、信頼につながります。</div>
+            </div>
+            <div class="row">
+                <div class="time-display" contenteditable="true">19:15</div>
+                <div class="task-main">
+                    <span class="task-title" contenteditable="true">退勤</span>
+                    <div class="task-desc" contenteditable="true">お疲れさまでした！気持ちよく1日を締めくくり、時間内で退勤します。</div>
+                </div>
+                <ul class="item-list">
+                    <li contenteditable="true">◇ 戸締まり・施錠確認</li>
+                    <li contenteditable="true">◇ 電気・空調の確認</li>
+                    <li contenteditable="true">◇ 忘れ物チェック</li>
+                </ul>
+                <div class="point-card" contenteditable="true">気持ちの良い締めくくりが、明日の良いスタートになります。</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-label">私たちの合言葉</div>
+        <div class="footer-text" contenteditable="true">売るのではなく、選んでいただく。提案することで、最適な選択をサポートします。</div>
+    </footer>
+</div>
+
+</body>
+</html>
